@@ -1,6 +1,6 @@
 {
-  "name": "graphics-template",
-  "homepage": "https://vs-postmedia.github.io/graphics-template/",
+  "name": "covid-mortality-rate",
+  "homepage": "https://vs-postmedia.github.io/covid-mortality-rate/",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "d3": "^5.15.0",
     "d3-svg-annotation": "^2.5.1"
   },
