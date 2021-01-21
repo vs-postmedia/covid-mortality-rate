@@ -75,7 +75,8 @@ const init = async (data, el) => {
 
 	// add labels
 	addDates(lines);
-	addTitle(lines)
+	addTitle(lines);
+	addYAxis(lines);
 }
 
 function addDates(lines) {
@@ -104,9 +105,20 @@ function addTitle(lines) {
 		.attr('class', 'title')
 		.attr('text-anchor', 'middle')
 		.attr('y', 5)
-		.attr('dy', margin.bottom / 2 + 5)
-		.attr('x', margin.right)
+		.attr('dy', margin.bottom / 2 - 15)
+		.attr('x', margin.right + 5)
 		.text(c => c.key);
+}
+
+function addYAxis(lines) {
+	const yAxis = d3.axisLeft()
+		.scale(yScale)
+		.ticks(4)
+		.tickSize(-width);
+
+	lines.append('g')
+		.attr('class', 'y axis')
+		.call(yAxis);
 }
 
 function areaGeneratorX(d) {
