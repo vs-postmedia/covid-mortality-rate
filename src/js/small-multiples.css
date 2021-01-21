@@ -1,9 +1,14 @@
+#charts {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 0 auto;
+	max-width: 700px;
+}
 #charts .chart {
-	float: left;
-	padding-right: 5px;
-	padding-bottom: 5px;
-	padding-top:0;
-	padding-left:0;
+	flex: 1;
+	padding: 10px 0;
+	width: 150px;
 }
 
 #charts .background {

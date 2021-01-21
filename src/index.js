@@ -11,6 +11,7 @@ import config from './data/config.json';
 
 // VARS
 const el = '#charts';
+const metric = 'cumulative_deaths';
 const dataUrl = 'https://vs-postmedia-data.sfo2.digitaloceanspaces.com/covid/covid-mortality-daily.csv';
 
 const init = async () => {
@@ -19,7 +20,7 @@ const init = async () => {
 	const resp = await d3.csv(dataUrl);
 	const data = transformData(resp);
 
-	smallMultiples.init(data, el);
+	smallMultiples.init(data, el, metric);
 };
 
 const transformData = (data) => {
@@ -35,12 +36,17 @@ const transformData = (data) => {
 	});
 
 	// group by province
-	return d3.nest()
+	const nested = d3.nest()
 		.key(d => d.short_name)
 		.entries(cleanData)
 		// sort by highest cumulative deaths
 		.sort((a,b) => b.values[b.values.length - 1].cumulative_deaths - a.values[a.values.length - 1].cumulative_deaths)
-		.filter(d => d.values[d.values.length - 1].cumulative_deaths > 0);
+		.filter(d => d.values[d.values.length - 1].cumulative_deaths > 0)
+	
+	// Compute the maximum price per symbol, needed for the y-domain.
+	nested.forEach(c => c.maxValue = d3.max(c.values, d => d.cumulative_deaths));
+
+	return nested;
 }
 
 init();

@@ -4,36 +4,38 @@ import smallMultiples from './small-multiples.css';
 
 
 // variables accessible to the rest of the functions inside SmallMultiples
-const width = 100;
+const width = 125;
 const height = 75;
-const margin = {top: 15, right: 10, bottom: 40, left: 35};
+const margin = {top: 10, right: 5, bottom: 20, left: 30};
 let xScale, yScale, xValue, yValue;
 
 
-const init = async (data, el) => {
+const init = async (data, el, metric) => {
+	console.log(data)
 	// scales
 	xScale = d3.scaleTime().range([0,width]);
 	yScale = d3.scaleLinear().range([height,0]);
 
 	// accessor functions for x/y values
+	// makes it easy to assign any var to x/y
 	xValue = d => d.date;
-	yValue = d => d.cumulative_100k;
+	yValue = d => d[metric];
 
 	// ---
-	// Sets the domain for our x and y scales.
+	// Sets the domain for the x scale.
 	// We want all the small multiples to have the
 	// same domains, so we only have to do this once.
 	// ---
-	setupScales(data);
+	setupXScale(data);
 
 	const areaGenerator = d3.area()
 		.curve(d3.curveLinear)
 		.x(d => xScale(xValue(d)))
-		.y0(yScale(0))
+		.y0(height)
 		.y1(d => yScale(yValue(d)));
 
 	const lineGenerator = d3.line()
-		// .curve(d3.curveLinear)
+		.curve(d3.curveLinear)
 		.x(d => xScale(xValue(d)))
 		.y(d => yScale(yValue(d)));
 
@@ -60,23 +62,34 @@ const init = async (data, el) => {
 		.attr('height', height)
 
 
+	// group for area & line paths
 	const lines = svg.append('g');
-	// area
+	
+	// Add the area path elements. Note: the y-domain is set per element.
 	lines.append('path')
 		.attr('class', 'area')
 		.style('pointer-events', 'none')
-		.attr('d', c => areaGenerator(c.values));
-	// line
+		.attr('d', d => {
+			yScale.domain([0, d.maxValue]); 
+			return areaGenerator(d.values);
+		});
+		// .attr('d', c => areaGenerator(c.values));
+	
+	// Add the line path elements. Note: the y-domain is set per element.
 	lines.append('path')
 		.attr('class', 'line')
 		.style('pointer-events', 'none')
-		.attr('d', c => lineGenerator(c.values));
+		.attr('d', d => {
+			yScale.domain([0, d.maxValue]); 
+			return lineGenerator(d.values);
+		});
+		// .attr('d', c => lineGenerator(c.values));
 
 
 	// add labels
 	addDates(lines);
 	addTitle(lines);
-	addYAxis(lines);
+	// addYAxis(lines);
 }
 
 function addDates(lines) {
@@ -113,7 +126,7 @@ function addTitle(lines) {
 function addYAxis(lines) {
 	const yAxis = d3.axisLeft()
 		.scale(yScale)
-		.ticks(4)
+		.ticks(3)
 		.tickSize(-width);
 
 	lines.append('g')
@@ -121,22 +134,22 @@ function addYAxis(lines) {
 		.call(yAxis);
 }
 
-function areaGeneratorX(d) {
-	return d3.area()
-		.curve(d3.curveLinear)
-		.x(d => xScale(xValue(d)))
-		.y0(height)
-		.y(d => yScale(yValue(d)))
-}
+// function areaGeneratorX(d) {
+// 	return d3.area()
+// 		.curve(d3.curveLinear)
+// 		.x(d => xScale(xValue(d)))
+// 		.y0(height)
+// 		.y(d => yScale(yValue(d)))
+// }
 
-function lineGeneratorX() {
-	return d3.line()
-		.curve(d3.curveLinear)
-		.x(d => xScale(xValue(d)))
-		.y1(d => yScale(yValue(d)))
-}
+// function lineGeneratorX() {
+// 	return d3.line()
+// 		.curve(d3.curveLinear)
+// 		.x(d => xScale(xValue(d)))
+// 		.y1(d => yScale(yValue(d)))
+// }
 
-function setupScales(data) {
+function setupXScale(data) {
 	let maxY = d3.max(data, c => d3.max(c.values, d => yValue(d)));
 	maxY = maxY + (maxY * 1/4);
 	yScale.domain([0, maxY]);
