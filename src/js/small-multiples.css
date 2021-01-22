@@ -15,37 +15,41 @@
 	fill: none;
 }
 
-svg {
+#charts svg {
 	font-size: 10px;
 }
  
-.area {
+#charts .area {
 	fill: var(--black);
 	opacity: 0.4;
 }
  
-.line {
+#charts .line {
 	fill: none;
 	stroke: var(--black);
 	stroke-width: 1.4px;
 }
 
-.label {
+#charts .label {
 	font-family: BentonSansCond-Regular;
 	font-size: 0.6rem;
 }
-.title {
+#charts .title {
 	font-family: BentonSansCond-Bold;
 	font-size: 0.8rem;
 }
 
-.axis path {
+#charts .y-axis path {
 	display: none;
 }
-.axis line, .grid line {
+#charts .y-axis line, .grid line {
 	stroke-width: 1px;
 	shape-rendering: crispEdges;
 	stroke: #fff;
 	opacity: 0.5;
 	pointer-events: none;
+}
+
+#charts .annotation {
+	text-anchor: middle;
 }
