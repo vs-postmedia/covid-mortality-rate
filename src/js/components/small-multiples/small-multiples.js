@@ -1,12 +1,12 @@
 import * as d3 from 'd3';
-import helper from './helper-functions';
+import helper from '../../helper-functions';
 import smallMultiples from './small-multiples.css';
 
 
 // variables accessible to the rest of the functions inside SmallMultiples
 const width = 125;
 const height = 75;
-const margin = {top: 15, right: 5, bottom: 20, left: 30};
+const margin = {top: 20, right: 25, bottom: 20, left: 30};
 let annotation, circle, dateAnno, formatDate, index, xScale, yScale, xValue, yValue;
 
 
@@ -14,7 +14,7 @@ let annotation, circle, dateAnno, formatDate, index, xScale, yScale, xValue, yVa
 const init = async (data, el, metric) => {
 	console.log(data)
 	// format date for mouseover events
-	formatDate = d3.timeFormat('%B %d');
+	formatDate = d3.timeFormat('%b %d');
 	
 	// scales
 	xScale = d3.scaleTime().range([0,width]);
@@ -63,10 +63,7 @@ const init = async (data, el, metric) => {
 		.attr('class', 'background')
 		.style('pointer-events', 'all')
 		.attr('width', width + margin.right)
-		.attr('height', height)
-		// .on('mouseover', mouseover)
-		// .on('mousemove', mousemove)
-		// .on('mouseout', mouseout);
+		.attr('height', height);
 
 
 	// group for area & line paths
@@ -127,28 +124,28 @@ function addInteractivity(lines) {
 	circle = lines.append('circle')
 		.attr('r', 5)
 		.attr('opacity', 0)
-		.style('pointer-events', 'none')
+		.attr('class', 'dot')
+		.style('pointer-events', 'none');
 
 	annotation = lines.append('text')
 		.attr('class', 'annotation')
 		.style('pointer-events', 'none')
-		.attr('dy', -8)
+		.attr('dy', -8);
 
 	dateAnno = lines.append('text')
 		.attr('class', 'date-anno')
 		.style('pointer-events', 'none')
 		.attr('dy', 13)
-		.attr('y', height)
+		.attr('y', height);
 }
 
 function addTitle(lines) {
 	// title
 	lines.append('text')
 		.attr('class', 'title')
-		.attr('text-anchor', 'middle')
 		// .attr('y', 5)
 		.attr('dy', margin.bottom / 2 - 15)
-		.attr('x', margin.right + 5)
+		.attr('x', -10)
 		.text(c => c.key);
 }
 
@@ -169,7 +166,6 @@ function addYAxis(svg) {
 
 function mousemove() {
 	let index = 0;
-	// const year = helper.months[xScale.invert(d3.mouse(this)[0]).getMonth()];
 	const date = xScale.invert(d3.mouse(this)[0]);
 	const bisect = d3.bisector(d => d.date).left;
 
@@ -193,14 +189,14 @@ function mousemove() {
 		})
 		.text(d =>  {
 			yScale.domain([0, d.maxValue]);
-			return yValue(d.values[index])
+			return helper.numberWithCommas(yValue(d.values[index]))
 		});
 
 	dateAnno
-		.attr('y', 10)
+		.attr('class', 'date-anno')
+		.attr('y', 15)
 		.attr('dy', margin.bottom / 2 - 15)
-		.attr('x', margin.right - 7)
-		.attr('text-anchor', 'left')
+		.attr('x', -10)
 		.text(formatDate(date));
 }
 
@@ -219,10 +215,6 @@ function mouseout() {
 
 
 function setupXScale(data) {
-	// let maxY = d3.max(data, c => d3.max(c.values, d => yValue(d)));
-	// maxY = maxY + (maxY * 1/4);
-	// yScale.domain([0, maxY]);
-
 	const extentX = d3.extent(data[0].values, d => xValue(d));
 	xScale.domain(extentX);
 }

@@ -6,11 +6,13 @@ import css from './css/main.css';
 
 // JS
 import * as d3 from 'd3';
-import smallMultiples from './js/small-multiples.js';
-import config from './data/config.json';
+import header from './js/components/header/header';
+import smallMultiples from './js/components/small-multiples/small-multiples';
+// import config from './data/config.json';
 
 // VARS
 const el = '#charts';
+const headerEl = '#header';
 const metric = 'cumulative_deaths';
 const dataUrl = 'https://vs-postmedia-data.sfo2.digitaloceanspaces.com/covid/covid-mortality-daily.csv';
 
@@ -20,6 +22,8 @@ const init = async () => {
 	const resp = await d3.csv(dataUrl);
 	const data = transformData(resp);
 
+	// header & chart
+	header.init(data, headerEl);
 	smallMultiples.init(data, el, metric);
 };
 
