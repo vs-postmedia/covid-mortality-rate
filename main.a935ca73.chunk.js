@@ -56,7 +56,7 @@ var es_array_filter = __webpack_require__(141);
 var es_array_for_each = __webpack_require__(152);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__(22);
+var es_array_iterator = __webpack_require__(23);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
 var es_array_map = __webpack_require__(157);
@@ -68,23 +68,23 @@ var es_array_sort = __webpack_require__(158);
 var es_function_name = __webpack_require__(159);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
-var es_object_to_string = __webpack_require__(49);
+var es_object_to_string = __webpack_require__(50);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
 var web_dom_collections_for_each = __webpack_require__(161);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
-var web_dom_collections_iterator = __webpack_require__(52);
+var web_dom_collections_iterator = __webpack_require__(53);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(15);
+var regenerator = __webpack_require__(10);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
-var runtime = __webpack_require__(53);
+var runtime = __webpack_require__(34);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(33);
+var asyncToGenerator = __webpack_require__(16);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator);
 
 // EXTERNAL MODULE: ./src/css/normalize.css
@@ -168,17 +168,36 @@ var header = __webpack_require__(186);
 
 // CONCATENATED MODULE: ./src/js/components/header/header.js
 
+
+
+
  // import template from 'header-template';
 
-const init = async (data, el) => {
-  const head = document.querySelector(el);
-  head.innerHTML = `
-			<h2>The shape of COVID-19 deaths in Canada</h2>
-		`;
-};
+var init = /*#__PURE__*/function () {
+  var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(data, el) {
+    var head;
+    return regenerator_default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            head = document.querySelector(el);
+            head.innerHTML = "\n\t\t\t<h2>The shape of COVID-19 deaths in Canada</h2>\n\t\t\t<p>Cumulative COVID-19 related deaths by province.</p>\n\t\t";
+
+          case 2:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function init(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}();
 
 /* harmony default export */ var header_header = ({
-  init
+  init: init
 });
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
 var es_array_concat = __webpack_require__(187);
