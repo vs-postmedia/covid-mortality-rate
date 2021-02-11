@@ -39,18 +39,28 @@
 	margin: 0;
 }
 
+
 #app footer {
 	display: flex;
+	flex-wrap: wrap;
 }
 
 #app footer > p {
 	flex: 1;
 }
+#app footer .note {
+	color: var(--grey02);
+	flex: 0 0 100%;
+	font-family: BentonSansCond-RegItalic, italic;
+}
+
+#app footer > div {
+	margin-top: 0 !important;
+}
 
 #app .note,
 #app .source,
 #app .credit {
-	color: var(--grey02);
 	font-size: 0.8rem;
 }
 
