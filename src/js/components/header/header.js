@@ -5,7 +5,7 @@ import './header.css';
 const init = async (data, el) => {
 	const head = document.querySelector(el);
 	head.innerHTML = `
-			<h1>Hed tk</h1>
+			<h2>The shape of COVID-19 deaths in Canada</h2>
 		`;
 }
 
