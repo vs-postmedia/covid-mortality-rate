@@ -12,7 +12,6 @@ let annotation, circle, dateAnno, formatDate, index, xScale, yScale, xValue, yVa
 
 
 const init = async (data, el, metric) => {
-	console.log(data)
 	// format date for mouseover events
 	formatDate = d3.timeFormat('%b %d');
 	
@@ -52,7 +51,7 @@ const init = async (data, el, metric) => {
 		.append('div')
 			.attr('class', 'chart')
 			.append('svg')
-			.attr('id', d => d.key.toLowerCase().replaceAll('.', ''))
+			.attr('id', d => d.key.replace(/\./g, ''))
 			.attr('width', width + margin.left + margin.right)
 			.attr('height', height + margin.top + margin.bottom)
 				.append('g')
@@ -80,7 +79,6 @@ const init = async (data, el, metric) => {
 		.on('mouseover', mouseover)
 		.on('mousemove', mousemove)
 		.on('mouseout', mouseout);
-		// .attr('d', c => areaGenerator(c.values));
 	
 	// Add the line path elements. Note: the y-domain is set per element.
 	lines.append('path')
@@ -90,7 +88,6 @@ const init = async (data, el, metric) => {
 			yScale.domain([0, d.maxValue]); 
 			return lineGenerator(d.values);
 		});
-		// .attr('d', c => lineGenerator(c.values));
 
 	// add labels
 	addDates(lines);
@@ -151,7 +148,7 @@ function addTitle(lines) {
 
 function addYAxis(svg) {
 	svg.each(d => {
-		const chart = d3.select(d.key.toLowerCase().replaceAll('.', ''));
+		const chart = d3.select(d.key.toLowerCase().replace(/\./g, ''));
 
 		yScale.domain([0, d.maxValue]);
 		const yAxis = d3.axisLeft(yScale)
