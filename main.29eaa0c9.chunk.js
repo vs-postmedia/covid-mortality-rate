@@ -35,14 +35,14 @@
 
 /***/ }),
 
-/***/ 188:
+/***/ 187:
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
 
-/***/ 189:
+/***/ 188:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50,13 +50,13 @@
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.filter.js
-var es_array_filter = __webpack_require__(141);
+var es_array_filter = __webpack_require__(138);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.for-each.js
 var es_array_for_each = __webpack_require__(152);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__(23);
+var es_array_iterator = __webpack_require__(31);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
 var es_array_map = __webpack_require__(157);
@@ -68,23 +68,23 @@ var es_array_sort = __webpack_require__(158);
 var es_function_name = __webpack_require__(159);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
-var es_object_to_string = __webpack_require__(50);
+var es_object_to_string = __webpack_require__(84);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
 var web_dom_collections_for_each = __webpack_require__(161);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
-var web_dom_collections_iterator = __webpack_require__(53);
+var web_dom_collections_iterator = __webpack_require__(50);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(10);
+var regenerator = __webpack_require__(15);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
-var runtime = __webpack_require__(34);
+var runtime = __webpack_require__(51);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(16);
+var asyncToGenerator = __webpack_require__(33);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator);
 
 // EXTERNAL MODULE: ./src/css/normalize.css
@@ -106,7 +106,7 @@ var d3 = __webpack_require__(0);
 var es_array_includes = __webpack_require__(166);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
-var es_regexp_exec = __webpack_require__(89);
+var es_regexp_exec = __webpack_require__(86);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
 var es_regexp_to_string = __webpack_require__(168);
@@ -115,16 +115,16 @@ var es_regexp_to_string = __webpack_require__(168);
 var es_string_includes = __webpack_require__(169);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
-var es_string_iterator = __webpack_require__(91);
+var es_string_iterator = __webpack_require__(88);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.replace.js
-var es_string_replace = __webpack_require__(173);
+var es_string_replace = __webpack_require__(89);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.search.js
-var es_string_search = __webpack_require__(175);
+var es_string_search = __webpack_require__(174);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.url.js
-var web_url = __webpack_require__(177);
+var web_url = __webpack_require__(176);
 
 // CONCATENATED MODULE: ./src/js/helper-functions.js
 
@@ -199,119 +199,72 @@ var init = /*#__PURE__*/function () {
 /* harmony default export */ var header_header = ({
   init: init
 });
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
-var es_array_concat = __webpack_require__(187);
-
 // EXTERNAL MODULE: ./src/js/components/small-multiples/small-multiples.css
-var small_multiples = __webpack_require__(188);
+var small_multiples = __webpack_require__(187);
 
 // CONCATENATED MODULE: ./src/js/components/small-multiples/small-multiples.js
 
 
 
 
-
-
-
-
-
  // variables accessible to the rest of the functions inside SmallMultiples
 
-var width = 125;
-var height = 75;
-var margin = {
+const width = 125;
+const height = 75;
+const margin = {
   top: 20,
   right: 25,
   bottom: 20,
   left: 30
 };
-var annotation, circle, dateAnno, formatDate, small_multiples_index, xScale, yScale, xValue, yValue;
+let annotation, circle, dateAnno, formatDate, small_multiples_index, xScale, yScale, xValue, yValue;
 
-var small_multiples_init = /*#__PURE__*/function () {
-  var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(data, el, metric) {
-    var areaGenerator, lineGenerator, svg, lines;
-    return regenerator_default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            console.log(data); // format date for mouseover events
+const small_multiples_init = async (data, el, metric) => {
+  // format date for mouseover events
+  formatDate = d3["o" /* timeFormat */]('%b %d'); // scales
 
-            formatDate = d3["o" /* timeFormat */]('%b %d'); // scales
+  xScale = d3["l" /* scaleTime */]().range([0, width]);
+  yScale = d3["k" /* scaleLinear */]().range([height, 0]); // accessor functions for x/y values
+  // makes it easy to assign any var to x/y
 
-            xScale = d3["l" /* scaleTime */]().range([0, width]);
-            yScale = d3["k" /* scaleLinear */]().range([height, 0]); // accessor functions for x/y values
-            // makes it easy to assign any var to x/y
+  xValue = d => d.date;
 
-            xValue = function xValue(d) {
-              return d.date;
-            };
-
-            yValue = function yValue(d) {
-              return d[metric];
-            }; // ---
-            // Sets the domain for the x scale.
-            // We want all the small multiples to have the
-            // same domains, so we only have to do this once.
-            // ---
+  yValue = d => d[metric]; // ---
+  // Sets the domain for the x scale.
+  // We want all the small multiples to have the
+  // same domains, so we only have to do this once.
+  // ---
 
 
-            setupXScale(data);
-            areaGenerator = d3["a" /* area */]().curve(d3["e" /* curveLinear */]).x(function (d) {
-              return xScale(xValue(d));
-            }).y0(height).y1(function (d) {
-              return yScale(yValue(d));
-            });
-            lineGenerator = d3["g" /* line */]().curve(d3["e" /* curveLinear */]).x(function (d) {
-              return xScale(xValue(d));
-            }).y(function (d) {
-              return yScale(yValue(d));
-            }); // create our divs for each chart
+  setupXScale(data);
+  const areaGenerator = d3["a" /* area */]().curve(d3["e" /* curveLinear */]).x(d => xScale(xValue(d))).y0(height).y1(d => yScale(yValue(d)));
+  const lineGenerator = d3["g" /* line */]().curve(d3["e" /* curveLinear */]).x(d => xScale(xValue(d))).y(d => yScale(yValue(d))); // create our divs for each chart
 
-            svg = d3["n" /* selectAll */](el).selectAll('.chart').data(data).enter().append('div').attr('class', 'chart').append('svg').attr('id', function (d) {
-              return d.key.toLowerCase().replaceAll('.', '');
-            }).attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', "translate(".concat(margin.left, ", ").concat(margin.top, ")")); // Invisible background rectangle that will capture all our mouse movements
+  const svg = d3["n" /* selectAll */](el).selectAll('.chart').data(data).enter().append('div').attr('class', 'chart').append('svg').attr('id', d => d.key.replace(/\./g, '')).attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', `translate(${margin.left}, ${margin.top})`); // Invisible background rectangle that will capture all our mouse movements
 
-            svg.append('rect').attr('class', 'background').style('pointer-events', 'all').attr('width', width + margin.right).attr('height', height); // group for area & line paths
+  svg.append('rect').attr('class', 'background').style('pointer-events', 'all').attr('width', width + margin.right).attr('height', height); // group for area & line paths
 
-            lines = svg.append('g'); // Add the area path elements. Note: the y-domain is set per element.
+  const lines = svg.append('g'); // Add the area path elements. Note: the y-domain is set per element.
 
-            lines.append('path').attr('class', 'area').style('pointer-events', 'all').attr('d', function (d) {
-              yScale.domain([0, d.maxValue]);
-              return areaGenerator(d.values);
-            }).on('mouseover', mouseover).on('mousemove', mousemove).on('mouseout', mouseout); // .attr('d', c => areaGenerator(c.values));
-            // Add the line path elements. Note: the y-domain is set per element.
+  lines.append('path').attr('class', 'area').style('pointer-events', 'all').attr('d', d => {
+    yScale.domain([0, d.maxValue]);
+    return areaGenerator(d.values);
+  }).on('mouseover', mouseover).on('mousemove', mousemove).on('mouseout', mouseout); // Add the line path elements. Note: the y-domain is set per element.
 
-            lines.append('path').attr('class', 'line').style('pointer-events', 'none').attr('d', function (d) {
-              yScale.domain([0, d.maxValue]);
-              return lineGenerator(d.values);
-            }); // .attr('d', c => lineGenerator(c.values));
-            // add labels
+  lines.append('path').attr('class', 'line').style('pointer-events', 'none').attr('d', d => {
+    yScale.domain([0, d.maxValue]);
+    return lineGenerator(d.values);
+  }); // add labels
 
-            addDates(lines);
-            addTitle(lines);
-            addYAxis(svg);
-            addInteractivity(lines);
-
-          case 18:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function init(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
-  };
-}();
+  addDates(lines);
+  addTitle(lines);
+  addYAxis(svg);
+  addInteractivity(lines);
+};
 
 function addDates(lines) {
-  lines.append('text').attr('class', 'label').attr('text-anchor', 'start').style('pointer-events', 'none').attr('dy', 13).attr('y', height).attr('x', 0).text(function (c) {
-    return helper_functions.months[xValue(c.values[0]).getMonth()];
-  });
-  lines.append('text').attr('class', 'label').attr('text-anchor', 'end').style('pointer-events', 'none').attr('dy', 13).attr('y', height).attr('x', width).text(function (c) {
-    return helper_functions.months[xValue(c.values[c.values.length - 1]).getMonth()];
-  });
+  lines.append('text').attr('class', 'label').attr('text-anchor', 'start').style('pointer-events', 'none').attr('dy', 13).attr('y', height).attr('x', 0).text(c => helper_functions.months[xValue(c.values[0]).getMonth()]);
+  lines.append('text').attr('class', 'label').attr('text-anchor', 'end').style('pointer-events', 'none').attr('dy', 13).attr('y', height).attr('x', width).text(c => helper_functions.months[xValue(c.values[c.values.length - 1]).getMonth()]);
 }
 
 function addInteractivity(lines) {
@@ -323,35 +276,31 @@ function addInteractivity(lines) {
 function addTitle(lines) {
   // title
   lines.append('text').attr('class', 'title') // .attr('y', 5)
-  .attr('dy', margin.bottom / 2 - 15).attr('x', -10).text(function (c) {
-    return c.key;
-  });
+  .attr('dy', margin.bottom / 2 - 15).attr('x', -10).text(c => c.key);
 }
 
 function addYAxis(svg) {
-  svg.each(function (d) {
-    var chart = d3["m" /* select */](d.key.toLowerCase().replaceAll('.', ''));
+  svg.each(d => {
+    const chart = d3["m" /* select */](d.key.toLowerCase().replace(/\./g, ''));
     yScale.domain([0, d.maxValue]);
-    var yAxis = d3["b" /* axisLeft */](yScale).ticks(3).tickSize(-width);
+    const yAxis = d3["b" /* axisLeft */](yScale).ticks(3).tickSize(-width);
     chart.append('g').attr('class', 'y-axis').call(yAxis);
   });
 }
 
 function mousemove() {
-  var index = 0;
-  var date = xScale.invert(d3["i" /* mouse */](this)[0]);
-  var bisect = d3["c" /* bisector */](function (d) {
-    return d.date;
-  }).left;
-  circle.attr('cx', xScale(date)).each(function (d) {}).attr('cy', function (d) {
+  let index = 0;
+  const date = xScale.invert(d3["i" /* mouse */](this)[0]);
+  const bisect = d3["c" /* bisector */](d => d.date).left;
+  circle.attr('cx', xScale(date)).each(d => {}).attr('cy', d => {
     yScale.domain([0, d.maxValue]);
     index = bisect(d.values, date, 0, d.values.length - 1);
     return yScale(yValue(d.values[index]));
   });
-  annotation.attr('x', xScale(date)).attr('y', function (d) {
+  annotation.attr('x', xScale(date)).attr('y', d => {
     yScale.domain([0, d.maxValue]);
     return yScale(yValue(d.values[index]));
-  }).text(function (d) {
+  }).text(d => {
     yScale.domain([0, d.maxValue]);
     return helper_functions.numberWithCommas(yValue(d.values[index]));
   });
@@ -372,9 +321,7 @@ function mouseout() {
 }
 
 function setupXScale(data) {
-  var extentX = d3["f" /* extent */](data[0].values, function (d) {
-    return xValue(d);
-  });
+  const extentX = d3["f" /* extent */](data[0].values, d => xValue(d));
   xScale.domain(extentX);
 }
 
@@ -473,4 +420,4 @@ src_init();
 
 /***/ })
 
-},[[189,1,2]]]);
+},[[188,1,2]]]);
